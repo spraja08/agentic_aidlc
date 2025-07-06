@@ -1,0 +1,14 @@
+[project]
+name = "qflow"
+version = "0.1.0"
+description = "An agentic implementation for SDLC"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "faiss-cpu>=1.11.0",
+    "jupyterlab>=4.4.3",
+    "numpy>=2.3.1",
+    "ollama>=0.5.1",
+    "strands-agents>=0.1.9",
+    "strands-agents-tools>=0.1.7",
+]
