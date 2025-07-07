@@ -161,18 +161,14 @@ class memstore:
         
         Handles loading errors gracefully by initializing empty metadata store on failure.
         """
-        try:
-            self.index = faiss.read_index(self.index_path)
-            with open(self.metadata_store_path, "rb") as f:
-                data = pickle.load(f)
-                if isinstance(data, dict) and "metadata_store" in data:
-                    self.metadata_store = data["metadata_store"]
-                    self.userid_index = data.get("userid_index", {})
-                else:
-                    self.metadata_store = data
-                    self._rebuild_userid_index()
+        self.index = faiss.read_index(self.index_path)
+        with open(self.metadata_store_path, "rb") as f:
+            data = pickle.load(f)
+            if isinstance(data, dict) and "metadata_store" in data:
+                self.metadata_store = data["metadata_store"]
+                self.userid_index = data.get("userid_index", {})
+            else:
+                self.metadata_store = data
+                self._rebuild_userid_index()
             logger.info(f"Loaded FAISS index from {self.index_path} with {len(self.metadata_store)} vectors")
-        except Exception as e:
-            logger.warning(f"Failed to load FAISS index: {e}")
-            self.metadata_store = {}
-            self.userid_index = {}
+        logger.info(f"Failed to load FAISS index from {self.index_path}")
